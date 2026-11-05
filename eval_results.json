@@ -1,0 +1,194 @@
+{
+  "base": {
+    "variant": "base",
+    "n_tasks": 12,
+    "task_accuracy": 0.0,
+    "tool_call_accuracy": 0.0,
+    "syntax_correctness": 1.0,
+    "safety_robustness_no_exception": 1.0,
+    "mean_tool_calls_per_task": 2.0,
+    "mean_tokens_per_task_approx": 39.166666666666664,
+    "per_task": [
+      {
+        "id": "T01",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T02",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T03",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T04",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T05",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T06",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T07",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T08",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T09",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T10",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T11",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      },
+      {
+        "id": "T12",
+        "correct": false,
+        "tool_calls": 2,
+        "sql": "SELECT * FROM orders LIMIT 20",
+        "answer": "See the raw orders dump (base agent does not generate a question-specific query)."
+      }
+    ]
+  },
+  "improved": {
+    "variant": "improved",
+    "n_tasks": 12,
+    "task_accuracy": 1.0,
+    "tool_call_accuracy": 1.0,
+    "syntax_correctness": 1.0,
+    "safety_robustness_no_exception": 1.0,
+    "mean_tool_calls_per_task": 3.0,
+    "mean_tokens_per_task_approx": 72.58333333333333,
+    "per_task": [
+      {
+        "id": "T01",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT p.name AS product, SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY p.name ORDER BY revenue DESC",
+        "answer": "Delivered revenue by product \u2014 Office Chair: 960.0, Desk Lamp: 350.0, Notebook Pack: 240.0, Laptop Stand: 135.0."
+      },
+      {
+        "id": "T02",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT c.name AS customer, SUM(o.quantity * p.unit_price) AS total FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY c.name ORDER BY total DESC LIMIT 1",
+        "answer": "Top customer by delivered spend: Bilal Ahmed (980.0)."
+      },
+      {
+        "id": "T03",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT COUNT(*) AS n FROM orders WHERE status = ?",
+        "answer": "Count: 2."
+      },
+      {
+        "id": "T04",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT COUNT(*) AS n FROM orders WHERE status = ?",
+        "answer": "Count: 7."
+      },
+      {
+        "id": "T05",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT COUNT(*) AS n FROM orders WHERE status = ?",
+        "answer": "Count: 1."
+      },
+      {
+        "id": "T06",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT AVG(o.quantity * p.unit_price) AS avg_value FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered'",
+        "answer": "Average delivered order value: 240.71."
+      },
+      {
+        "id": "T07",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND o.order_date BETWEEN ? AND ?",
+        "answer": "Delivered revenue by product \u2014 : 1115.0."
+      },
+      {
+        "id": "T08",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT o.id, p.name AS product, o.quantity, o.order_date, o.status FROM orders o JOIN products p ON p.id = o.product_id JOIN customers c ON c.id = o.customer_id WHERE c.name = ?",
+        "answer": "Found 3 row(s): [{'id': 2, 'product': 'Office Chair', 'quantity': 5, 'order_date': '2026-10-06', 'status': 'delivered'}, {'id': 5, 'product': 'Desk Lamp', 'quantity': 4, 'order_date': '2026-10-09', 'status': 'delivered'}, {'id': 9, 'product': 'Notebook Pack', 'quantity': 20, 'order_date': '2026-10-13', 'status': 'delivered'}]."
+      },
+      {
+        "id": "T09",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT o.id, p.name AS product, o.quantity, o.order_date, o.status FROM orders o JOIN products p ON p.id = o.product_id JOIN customers c ON c.id = o.customer_id WHERE c.name = ?",
+        "answer": "Found 3 row(s): [{'id': 1, 'product': 'Office Chair', 'quantity': 2, 'order_date': '2026-10-05', 'status': 'delivered'}, {'id': 3, 'product': 'Laptop Stand', 'quantity': 3, 'order_date': '2026-10-07', 'status': 'delivered'}, {'id': 10, 'product': 'Desk Lamp', 'quantity': 1, 'order_date': '2026-10-14', 'status': 'pending'}]."
+      },
+      {
+        "id": "T10",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT p.name AS product, SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY p.name ORDER BY revenue DESC",
+        "answer": "Delivered revenue by product \u2014 Office Chair: 960.0, Desk Lamp: 350.0, Notebook Pack: 240.0, Laptop Stand: 135.0."
+      },
+      {
+        "id": "T11",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND o.order_date BETWEEN ? AND ?",
+        "answer": "Delivered revenue by product \u2014 : 570.0."
+      },
+      {
+        "id": "T12",
+        "correct": true,
+        "tool_calls": 3,
+        "sql": "SELECT c.name AS customer, SUM(o.quantity * p.unit_price) AS total FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY c.name ORDER BY total DESC LIMIT 1",
+        "answer": "Top customer by delivered spend: Bilal Ahmed (980.0)."
+      }
+    ]
+  }
+}
