@@ -19,11 +19,13 @@ HONEST SCOPE (see README.md):
   an AGENT-improvement comparison (naive tool use vs structured tool use),
   NOT a base-model vs fine-tuned-model comparison. That distinction must be
   kept in any submission text.
-- AgentTune / AuditKIT are NOT imported here: those libraries are not
-  installed in this environment and were not downloaded. ``audit.py`` provides
-  a small audit trail in the same spirit (every tool call logged with its
-  arguments, result summary and check outcome); real AgentTune/AuditKIT
-  integration is a documented next step, not a claim.
+- AgentTune / AuditKIT integration lives in ``auditkit_eval.py`` (same
+  package): every run is exported as a real AgentTune ``Trajectory`` and
+  scored by the real AuditKIT ``AgentEvalRunner`` in recorded mode. That
+  integration evaluates recorded trajectories; it does NOT train or
+  fine-tune any model. ``audit.py`` provides a small audit trail in the
+  same spirit (every tool call logged with its arguments, result summary
+  and check outcome).
 - Only read-only SQL is ever executed. Writes, multi-statements and unknown
   tables/columns are rejected before execution.
 
