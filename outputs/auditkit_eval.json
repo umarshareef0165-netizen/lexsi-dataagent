@@ -1,0 +1,3088 @@
+{
+  "mode": "recorded",
+  "scorers": [
+    "tool_call_f1_name",
+    "tool_call_validity",
+    "redundant_tool_calls",
+    "agent_loop_detection",
+    "tool_permission"
+  ],
+  "n_cases": 24,
+  "rows": [
+    {
+      "case_id": "T01-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T01-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T01-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT p.name AS product, SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY p.name ORDER BY revenue DESC"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T01-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T02-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T02-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T02-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT c.name AS customer, SUM(o.quantity * p.unit_price) AS total FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY c.name ORDER BY total DESC LIMIT 1"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T02-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T03-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T03-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T03-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT COUNT(*) AS n FROM orders WHERE status = ?"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T03-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T04-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T04-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T04-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT COUNT(*) AS n FROM orders WHERE status = ?"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T04-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T05-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T05-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T05-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT COUNT(*) AS n FROM orders WHERE status = ?"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T05-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T06-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T06-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T06-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT AVG(o.quantity * p.unit_price) AS avg_value FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered'"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T06-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T07-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T07-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T07-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND o.order_date BETWEEN ? AND ?"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T07-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T08-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T08-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T08-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT o.id, p.name AS product, o.quantity, o.order_date, o.status FROM orders o JOIN products p ON p.id = o.product_id JOIN customers c ON c.id = o.customer_id WHERE c.name = ?"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T08-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T09-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T09-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T09-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT o.id, p.name AS product, o.quantity, o.order_date, o.status FROM orders o JOIN products p ON p.id = o.product_id JOIN customers c ON c.id = o.customer_id WHERE c.name = ?"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T09-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T10-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T10-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T10-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT p.name AS product, SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY p.name ORDER BY revenue DESC"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T10-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T11-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T11-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T11-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND o.order_date BETWEEN ? AND ?"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T11-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T12-base",
+      "status": "completed",
+      "outcome": {
+        "verdict": "failure",
+        "reason": "custom predicate -> False",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 2,
+            "n_matched": 2,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT * FROM orders LIMIT 20"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 0.6666666666666666,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 0.8,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 2
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 2,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 2,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 0.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T12-base",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    },
+    {
+      "case_id": "T12-improved",
+      "status": "completed",
+      "outcome": {
+        "verdict": "success",
+        "reason": "custom predicate -> True",
+        "evidence": {},
+        "source": {
+          "type": "custom_predicate",
+          "version": "dataagent-must-contain/1",
+          "fn": "must_contain"
+        },
+        "diagnostic": false
+      },
+      "coverage": {
+        "final_answer": "observed",
+        "tool_call_names": "observed",
+        "tool_call_arguments": "observed",
+        "tool_results": "observed",
+        "call_result_pairing": "unavailable",
+        "parallel_grouping": "observed",
+        "timestamps": "unavailable",
+        "retrieved_contexts": "unavailable",
+        "final_state": "unavailable"
+      },
+      "coverage_label": "full",
+      "diagnostics": {
+        "tool_call_precision_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_expected": 3,
+            "n_predicted": 3,
+            "n_matched": 3,
+            "predicted": [
+              {
+                "name": "list_tables",
+                "arguments": {}
+              },
+              {
+                "name": "describe_table",
+                "arguments": {
+                  "table": "orders"
+                }
+              },
+              {
+                "name": "run_query",
+                "arguments": {
+                  "sql": "SELECT c.name AS customer, SUM(o.quantity * p.unit_price) AS total FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY c.name ORDER BY total DESC LIMIT 1"
+                }
+              }
+            ]
+          }
+        },
+        "tool_call_recall_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_f1_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_exact_name": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {}
+        },
+        "tool_call_validity": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_invalid": 0
+          }
+        },
+        "redundant_tool_calls": {
+          "value": 0.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_duplicates": 0
+          }
+        },
+        "agent_loop_detection": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "looped": false,
+            "signals": [],
+            "max_repeat": 1,
+            "n_calls": 3
+          }
+        },
+        "tool_permission": {
+          "value": 1.0,
+          "reason": null,
+          "metadata": {
+            "n_calls": 3,
+            "n_violations": 0,
+            "allowlist": [
+              "describe_table",
+              "list_tables",
+              "run_query"
+            ],
+            "denylist": []
+          }
+        }
+      },
+      "ineligible": {},
+      "resource_use": {
+        "latency_ms": null,
+        "tokens": null,
+        "n_tool_calls": 3,
+        "agent_call": false
+      },
+      "provenance": {
+        "source_reward": 1.0,
+        "source_verdict": null,
+        "source_scores": null
+      },
+      "judge": null,
+      "stop_reason": null,
+      "errors": [],
+      "source_format": "agenttune_trajectory",
+      "source_id": "T12-improved",
+      "reliability": {},
+      "trials": [],
+      "disagreement": {}
+    }
+  ],
+  "summary": {
+    "summary": "Agent eval   Mode: recorded   Cases: 24\nVerified success: 12/24 (12/24 decided)   Failure: 12   Unknown outcome: 0   Error: 0   Over budget: 0\nEndpoint errors: 0\nStatus: completed 24\nTrace coverage: full 24, tool names only 0, answer only 0\nTool validity: 24/24 eligible\nMedian latency: n/a          Agent calls: 0"
+  }
+}
