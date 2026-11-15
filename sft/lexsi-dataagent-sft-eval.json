@@ -1,0 +1,126 @@
+[
+  {
+    "id": "T01",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: What is the total revenue by product for delivered orders?\nSQL:",
+    "question": "What is the total revenue by product for delivered orders?",
+    "reference_sql": "SELECT p.name AS product, SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY p.name ORDER BY revenue DESC",
+    "expected": "Office Chair: 960.0, Desk Lamp: 350.0, Laptop Stand: 135.0, Notebook Pack: 240.0",
+    "must_contain": [
+      "Office Chair",
+      "960"
+    ]
+  },
+  {
+    "id": "T02",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: Who is the top customer by delivered spend?\nSQL:",
+    "question": "Who is the top customer by delivered spend?",
+    "reference_sql": "SELECT c.name AS customer, SUM(o.quantity * p.unit_price) AS total FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY c.name ORDER BY total DESC LIMIT 1",
+    "expected": "Bilal Ahmed (980.0: 600 + 140 + 240)",
+    "must_contain": [
+      "Bilal Ahmed",
+      "980"
+    ]
+  },
+  {
+    "id": "T03",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: How many orders have status pending?\nSQL:",
+    "question": "How many orders have status pending?",
+    "reference_sql": "SELECT COUNT(*) AS n FROM orders WHERE status = 'pending'",
+    "expected": "2",
+    "must_contain": [
+      "Count: 2"
+    ]
+  },
+  {
+    "id": "T04",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: How many orders have status delivered?\nSQL:",
+    "question": "How many orders have status delivered?",
+    "reference_sql": "SELECT COUNT(*) AS n FROM orders WHERE status = 'delivered'",
+    "expected": "7",
+    "must_contain": [
+      "Count: 7"
+    ]
+  },
+  {
+    "id": "T05",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: How many orders have status cancelled?\nSQL:",
+    "question": "How many orders have status cancelled?",
+    "reference_sql": "SELECT COUNT(*) AS n FROM orders WHERE status = 'cancelled'",
+    "expected": "1",
+    "must_contain": [
+      "Count: 1"
+    ]
+  },
+  {
+    "id": "T06",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: What is the average order value for delivered orders?\nSQL:",
+    "question": "What is the average order value for delivered orders?",
+    "reference_sql": "SELECT AVG(o.quantity * p.unit_price) AS avg_value FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered'",
+    "expected": "240.71",
+    "must_contain": [
+      "240.71"
+    ]
+  },
+  {
+    "id": "T07",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: What is the revenue between 2026-10-05 and 2026-10-09 for delivered orders?\nSQL:",
+    "question": "What is the revenue between 2026-10-05 and 2026-10-09 for delivered orders?",
+    "reference_sql": "SELECT SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND o.order_date BETWEEN '2026-10-05' AND '2026-10-09'",
+    "expected": "1115.0 (240 + 600 + 135 + 140)",
+    "must_contain": [
+      "1115"
+    ]
+  },
+  {
+    "id": "T08",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: List orders for Bilal Ahmed.\nSQL:",
+    "question": "List orders for Bilal Ahmed.",
+    "reference_sql": "SELECT o.id, p.name AS product, o.quantity, o.order_date, o.status FROM orders o JOIN products p ON p.id = o.product_id JOIN customers c ON c.id = o.customer_id WHERE c.name = 'Bilal Ahmed'",
+    "expected": "3 orders (ids 2, 5, 9)",
+    "must_contain": [
+      "Notebook Pack"
+    ]
+  },
+  {
+    "id": "T09",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: List orders for Ayesha Khan.\nSQL:",
+    "question": "List orders for Ayesha Khan.",
+    "reference_sql": "SELECT o.id, p.name AS product, o.quantity, o.order_date, o.status FROM orders o JOIN products p ON p.id = o.product_id JOIN customers c ON c.id = o.customer_id WHERE c.name = 'Ayesha Khan'",
+    "expected": "3 orders (ids 1, 3, 10)",
+    "must_contain": [
+      "Office Chair"
+    ]
+  },
+  {
+    "id": "T10",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: What is the total revenue by product for delivered orders?\nSQL:",
+    "question": "What is the total revenue by product for delivered orders?",
+    "reference_sql": "SELECT p.name AS product, SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY p.name ORDER BY revenue DESC",
+    "expected": "same as T01 (repeat for stability)",
+    "must_contain": [
+      "Office Chair",
+      "960"
+    ]
+  },
+  {
+    "id": "T11",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: What is the revenue between 2026-10-10 and 2026-10-13 for delivered orders?\nSQL:",
+    "question": "What is the revenue between 2026-10-10 and 2026-10-13 for delivered orders?",
+    "reference_sql": "SELECT SUM(o.quantity * p.unit_price) AS revenue FROM orders o JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' AND o.order_date BETWEEN '2026-10-10' AND '2026-10-13'",
+    "expected": "570.0 (120 + 210 + 240; cancelled order excluded)",
+    "must_contain": [
+      "570"
+    ]
+  },
+  {
+    "id": "T12",
+    "prompt": "Write a read-only SQL query for the question below using this schema.\n\nSchema:\ncustomers(id, name, city, segment)\nproducts(id, name, category, unit_price)\norders(id, customer_id, product_id, quantity, order_date, status)\n\nQuestion: Who is the top customer by delivered spend?\nSQL:",
+    "question": "Who is the top customer by delivered spend?",
+    "reference_sql": "SELECT c.name AS customer, SUM(o.quantity * p.unit_price) AS total FROM orders o JOIN customers c ON c.id = o.customer_id JOIN products p ON p.id = o.product_id WHERE o.status = 'delivered' GROUP BY c.name ORDER BY total DESC LIMIT 1",
+    "expected": "same as T02 (repeat for stability)",
+    "must_contain": [
+      "Bilal Ahmed",
+      "980"
+    ]
+  }
+]
