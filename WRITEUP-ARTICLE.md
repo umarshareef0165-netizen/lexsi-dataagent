@@ -4,9 +4,9 @@
 questions into verified SQL — and a Tiny Aya LoRA that learns to do the
 same — measured before and after on the same 12 tasks.
 
-> STATUS: DRAFT — model-eval numbers marked **[TO FILL]** come from the
-> Kaggle fine-tune run (`notebook/lexsi-tiny-aya-lora.ipynb`). Nothing in
-> this article is submitted until those numbers are real and pasted in.
+> STATUS: Model-eval numbers filled Nov 16, 2026 from the Kaggle fine-tune
+> run (`notebook/lexsi-tiny-aya-lora.ipynb`, Version #1): base 0/12, LoRA
+> 3/12. All numbers in this article were actually run and verified.
 
 ## Tracks + problem statements covered
 - **Track 3 — Agentic Fine-tuning**, Problem Statement **6: Data and
@@ -32,15 +32,13 @@ reproducible from the public repo.
 
 We then transferred the same pipeline to a trained model: a LoRA adapter
 (r=16) on Tiny Aya Global, fine-tuned on 26 verified question→SQL examples
-whose SQL was executed against the seed database before training. **[TO
-FILL: base Tiny Aya scored X/12, the LoRA scored Y/12 on the 12 held-out
-task questions (exact eval questions never appear in training).]** No
+whose SQL was executed against the seed database before training. Base Tiny Aya scored 0/12; the LoRA scored 3/12 on the 12 held-out task questions (exact eval questions never appear in training). No
 fine-tuning is claimed beyond this prototype-scale adapter, and the
 agent-level and model-level evaluations are kept separate throughout.
 
 **Headline before → after (agent level, measured):** task accuracy 0.000 →
 1.000; tool-call accuracy 0.000 → 1.000 (12 tasks).
-**Headline before → after (model level):** **[TO FILL from Kaggle run]**.
+**Headline before → after (model level):** base 0.000 → LoRA 0.250 (3/12; correct tasks T02, T06, T12).
 
 **Base model + method in one line:** CohereLabs Tiny Aya Global (3.35B),
 LoRA r=16, 4-bit NF4, SFT on 26 execution-verified question→SQL examples.
@@ -101,7 +99,7 @@ No third-party dataset is used.
 
 | Dataset | Contents | Licence |
 |---|---|---|
-| `lexsi-dataagent-trajectories` | 24 AgentTune trajectories + `eval_results.json` + `auditkit_eval.json` | MIT |
+| `lexsi-dataagent-trajectories` | 24 AgentTune trajectories + `eval_results.json` + `auditkit_eval.json` (in the GitHub repo `outputs/`; HF repo created but empty at write-up time, upload pending) | MIT |
 | `lexsi-dataagent-sft` | 26 SFT train examples + 12 held-out eval tasks + (after the Kaggle run) `lexsi-dataagent-model-eval.json` | MIT |
 
 **Languages covered:** English only (questions, SQL, answers).
@@ -149,9 +147,12 @@ tasks, same database, deterministic (no sampling). Harness:
 **Model experiment (Kaggle notebook):**
 - Base: Tiny Aya Global, 4-bit NF4, `device_map="auto"`, fp16 compute.
 - Method: LoRA r=16, alpha 32, dropout 0.05, all linear projections;
-  TRL SFTTrainer, prompt-completion data, prompt masked;
-  lr 2e-4, 3 epochs, batch 4 × grad-accum 2, max length 512, seed 42.
-- Hardware: Kaggle free GPU (T4). Training time **[TO FILL]**.
+  TRL 0.12.0 SFTTrainer, prompt-completion data, prompt masked;
+  lr 2e-4, 3 epochs, per-device batch 1 × grad-accum 8 (effective batch 8),
+  max length 512, seed 42. (TRL 1.18's fused loss kernel crashed on the
+  T4, so the run used TRL 0.12.0; batch 4 OOMed the T4 on the 256k-vocab
+  logits, hence batch 1.)
+- Hardware: Kaggle free GPU (T4 x2). Training time 87s.
 - Eval: greedy decoding (temperature 0), max 120 new tokens, same prompt
   format as training; SQL extracted with a regex; executed against the
   seed database; scored with the tasks' `must_contain` checks (same logic
@@ -176,23 +177,32 @@ tasks, same database, deterministic (no sampling). Harness:
 | mean tool calls / task | 2.00 | 3.00 |
 | mean approx. tokens / task | ~39.2 | ~72.6 |
 
-**Model level — base vs LoRA (table, [TO FILL from Kaggle run]):**
+**Model level — base vs LoRA (table, measured Nov 16, 2026):**
 
-| task | base correct? | LoRA correct? | LoRA generated SQL (first 120 chars) |
-|---|---|---|---|
-| T01–T12 | [TO FILL] | [TO FILL] | [TO FILL] |
-| **accuracy** | **[TO FILL]** | **[TO FILL]** | |
+| task | base correct? | LoRA correct? |
+|---|---|---|
+| T01 | No | No |
+| T02 | No | Yes |
+| T03 | No | No |
+| T04 | No | No |
+| T05 | No | No |
+| T06 | No | Yes |
+| T07 | No | No |
+| T08 | No | No |
+| T09 | No | No |
+| T10 | No | No |
+| T11 | No | No |
+| T12 | No | Yes |
+| **accuracy** | **0.000 (0/12)** | **0.250 (3/12)** |
+
+Per-task generated SQL: `lexsi-dataagent-model-eval.json` in the public SFT dataset repo (`umarshareef0165/lexsi-dataagent-sft`).
 
 **Findings (agent level):** the structured agent wins on accuracy, NOT on
 efficiency — it uses one extra tool call and roughly twice the (approximate)
 tokens per task, because it inspects the schema and generates a specific
 query. No efficiency win is claimed on these numbers.
 
-**What didn't work / negative results:** **[TO FILL after the Kaggle run —
-list any eval tasks the LoRA failed and why, e.g. wrong table, missing
-filter, unparseable output.]** Known in advance: the eval is small (12
-tasks) and the training set is tiny (26 examples); a failure on an unseen
-pattern variant is expected, not hidden.
+**What didn't work / negative results:** the LoRA failed 9 of 12 tasks (T01, T03, T04, T05, T07, T08, T09, T10, T11); each generated SQL is recorded in `lexsi-dataagent-model-eval.json`, but the per-task failure modes were not individually diagnosed. The likely causes at this scale are the tiny training set (26 examples) and unseen pattern variants. Known in advance: the eval is small (12 tasks) and the training set is tiny (26 examples); a failure on an unseen pattern variant is expected, not hidden.
 
 **Sample inputs and outputs:**
 - Input: "What is the total revenue by product for delivered orders?"
@@ -234,12 +244,15 @@ its current level.
 
 ## Artifacts
 - **HF datasets collection:** `Lexsi DataAgent — datasets`
-  (`umarshareef0165/lexsi-dataagent-trajectories`,
-  `umarshareef0165/lexsi-dataagent-sft`) — public. **[TO FILL: collection
-  URL after upload]**
+  (https://huggingface.co/collections/umarshareef0165/lexsi-dataagent-datasets)
+  — public. Contains `umarshareef0165/lexsi-dataagent-sft` (26 train
+  examples, 12 eval tasks, model-eval JSON) and
+  `umarshareef0165/lexsi-dataagent-trajectories` (repo created; empty on
+  HF at write-up time — the trajectory files live in the GitHub repo
+  `outputs/`; HF upload pending).
 - **HF models collection:** `Lexsi DataAgent — models`
-  (`umarshareef0165/lexsi-dataagent-tiny-aya-lora`) — public.
-  **[TO FILL: collection URL after upload]**
+  (https://huggingface.co/collections/umarshareef0165/lexsi-dataagent-models)
+  — public. Contains `umarshareef0165/lexsi-dataagent-tiny-aya-lora`.
 - **GitHub repo:** https://github.com/umarshareef0165-netizen/lexsi-dataagent
   (public; prototype, tests, SFT builder, notebook, this article).
 - **Demo video:** https://youtu.be/yXklaZhqHs0 (public; before/after on a
